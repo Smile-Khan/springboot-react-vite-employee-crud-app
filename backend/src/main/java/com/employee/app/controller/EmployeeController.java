@@ -2,6 +2,7 @@ package com.employee.app.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,4 +124,9 @@ public class EmployeeController {
 
         return ResponseEntity.ok(existing);
     }
+    @PostMapping("/delete-multiple")
+public ResponseEntity<String> deleteMultipleEmployees(@RequestBody List<Long> ids) {
+    service.deleteMultipleEmployees(ids);
+    return ResponseEntity.ok("Deleted multiple employees");
+}
 }

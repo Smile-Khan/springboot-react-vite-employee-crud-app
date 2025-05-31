@@ -1,5 +1,6 @@
 package com.employee.app.service;
 
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,5 +89,8 @@ public class EmployeeService {
 
     public void deleteEmployee(Long id) {
     repository.deleteById(id);
+}
+public void deleteMultipleEmployees(List<Long> ids) {
+    repository.deleteAllById(ids);
 }
 }
