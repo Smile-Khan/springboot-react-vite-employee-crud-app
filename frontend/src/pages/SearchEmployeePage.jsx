@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../services/api';
 import EmployeeModal from '../components/EmployeeModal';
+import EmployeeHistoryModal from '../components/EmployeeHistoryModal'; // Optional: use if needed
 
 const SearchEmployeePage = () => {
   const [filters, setFilters] = useState({
@@ -82,13 +83,21 @@ const SearchEmployeePage = () => {
     if (!confirm) return;
 
     try {
-      await API.post('/employees/delete-multiple', selectedIds); // POST body = [1, 2, 3]
+      await API.post('/employees/delete-multiple', selectedIds);
       alert('✅ Deleted selected employees.');
       setSelectedIds([]);
       fetchEmployees();
     } catch (err) {
       console.error(err);
       alert('❌ Error deleting selected employees.');
+    }
+  };
+
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setSelectedIds(employees.map((emp) => emp.id));
+    } else {
+      setSelectedIds([]);
     }
   };
 
@@ -122,11 +131,7 @@ const SearchEmployeePage = () => {
             <th className="th">
               <input
                 type="checkbox"
-                onChange={(e) =>
-                  setSelectedIds(
-                    e.target.checked ? employees.map((emp) => emp.id) : []
-                  )
-                }
+                onChange={handleSelectAll}
                 checked={selectedIds.length === employees.length && employees.length > 0}
               />
             </th>
@@ -189,18 +194,22 @@ const SearchEmployeePage = () => {
       )}
 
       <div className="mt-4 flex items-center gap-4">
-        <button disabled={page === 0} className="btn-blue" onClick={() => handlePageChange('prev')}>
+        <button disabled={page === 0} className="btn-blue disabled:opacity-50" onClick={() => handlePageChange('prev')}>
           Previous
         </button>
         <span className="text-gray-700">
           Page {page + 1} of {totalPages}
         </span>
-        <button disabled={page >= totalPages - 1} className="btn-blue" onClick={() => handlePageChange('next')}>
+        <button disabled={page >= totalPages - 1} className="btn-blue disabled:opacity-50" onClick={() => handlePageChange('next')}>
           Next
         </button>
       </div>
 
-      <EmployeeModal employee={selectedEmployee} onClose={() => setSelectedEmployee(null)} />
+      {selectedEmployee && (
+        <EmployeeModal employee={selectedEmployee} onClose={() => setSelectedEmployee(null)} />
+      )}
+
+      {/* Optionally: EmployeeHistoryModal can be used here when needed */}
     </div>
   );
 };

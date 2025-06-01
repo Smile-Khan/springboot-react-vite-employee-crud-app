@@ -57,12 +57,12 @@ const AddEmployeePage = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
-      <h2 className="text-2xl font-semibold mb-6 text-gray-800">Add New Employee</h2>
+    <div className="max-w-xl mx-auto p-8 bg-white rounded-lg shadow-lg mt-12">
+      <h2 className="text-3xl font-bold mb-6 text-gray-800 text-center">Add New Employee</h2>
 
       {message && (
         <p
-          className={`mb-4 text-center ${
+          className={`mb-6 text-center font-medium ${
             message.startsWith('✅') ? 'text-green-600' : 'text-red-600'
           }`}
         >
@@ -70,48 +70,47 @@ const AddEmployeePage = () => {
         </p>
       )}
 
-      <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-4">
-        <input
-          name="firstName"
-          placeholder="First Name"
-          value={formData.firstName}
-          onChange={handleChange}
-          required
-          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-
-        <input
-          name="middleName"
-          placeholder="Middle Name"
-          value={formData.middleName}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-
-        <input
-          name="lastName"
-          placeholder="Last Name"
-          value={formData.lastName}
-          onChange={handleChange}
-          required
-          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-
-        <input
-          name="dateOfBirth"
-          type="date"
-          value={formData.dateOfBirth}
-          onChange={handleChange}
-          required
-          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+      <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input
+            name="firstName"
+            placeholder="First Name *"
+            value={formData.firstName}
+            onChange={handleChange}
+            required
+            className="input"
+          />
+          <input
+            name="middleName"
+            placeholder="Middle Name"
+            value={formData.middleName}
+            onChange={handleChange}
+            className="input"
+          />
+          <input
+            name="lastName"
+            placeholder="Last Name *"
+            value={formData.lastName}
+            onChange={handleChange}
+            required
+            className="input"
+          />
+          <input
+            name="dateOfBirth"
+            type="date"
+            value={formData.dateOfBirth}
+            onChange={handleChange}
+            required
+            className="input"
+          />
+        </div>
 
         <select
           name="department"
           value={formData.department}
           onChange={handleChange}
           required
-          className="w-full px-3 py-2 border border-gray-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="input bg-white"
         >
           <option value="">-- Select Department --</option>
           <option value="Engineering">Engineering</option>
@@ -123,43 +122,46 @@ const AddEmployeePage = () => {
         <input
           name="salary"
           type="number"
-          placeholder="Salary"
+          placeholder="Salary *"
           value={formData.salary}
           onChange={handleChange}
           required
-          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="input"
         />
 
-        <input
+        <textarea
           name="permanentAddress"
-          placeholder="Permanent Address"
+          placeholder="Permanent Address *"
           value={formData.permanentAddress}
           onChange={handleChange}
           required
-          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="input"
+          rows={2}
         />
 
-        <input
+        <textarea
           name="currentAddress"
-          placeholder="Current Address"
+          placeholder="Current Address *"
           value={formData.currentAddress}
           onChange={handleChange}
           required
-          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="input"
+          rows={2}
         />
 
+        <div className="text-sm text-gray-600 mb-2">Upload ID Proof (PDF only)</div>
         <input
           type="file"
           accept="application/pdf"
           onChange={handleFileChange}
-          className="w-full"
+          className="file-input"
         />
 
         <button
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
         >
-          Submit
+          Add Employee
         </button>
       </form>
     </div>

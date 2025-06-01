@@ -1,16 +1,17 @@
 package com.employee.app.repository;
 
-import com.employee.app.model.Employee;
-import com.employee.app.dto.EmployeeSearchCriteria;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.time.LocalDate;
+import com.employee.app.dto.EmployeeSearchCriteria;
+import com.employee.app.model.Employee;
+
+import jakarta.persistence.criteria.Predicate;
 
 public class EmployeeSpecification {
 
     public static Specification<Employee> filterBy(EmployeeSearchCriteria criteria) {
         return (root, query, cb) -> {
-            var predicates = cb.conjunction();
+            Predicate predicates = cb.conjunction();
 
             if (criteria.getEmployeeId() != null) {
                 predicates.getExpressions().add(cb.equal(root.get("employeeId"), criteria.getEmployeeId()));
