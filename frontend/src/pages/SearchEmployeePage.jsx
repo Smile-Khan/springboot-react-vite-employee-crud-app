@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../services/api';
 import EmployeeModal from '../components/EmployeeModal';
-import EmployeeHistoryModal from '../components/EmployeeHistoryModal'; // Optional: use if needed
+import EmployeeHistoryModal from '../components/EmployeeHistoryModal'; // Optional
 
 const SearchEmployeePage = () => {
   const [filters, setFilters] = useState({
@@ -102,18 +102,18 @@ const SearchEmployeePage = () => {
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">🔍 Search Employees</h2>
+    <div className="p-6 text-gray-900 dark:text-white">
+      <h2 className="text-3xl font-bold mb-6">🔍 Search Employees</h2>
 
       <form
         onSubmit={handleSearch}
-        className="flex flex-wrap gap-4 bg-gray-100 p-4 rounded-md mb-6"
+        className="flex flex-wrap gap-4 bg-gray-100 dark:bg-gray-800 p-4 rounded-md mb-6"
       >
         <input name="employeeId" className="input" placeholder="Employee ID" onChange={handleChange} />
         <input name="firstName" className="input" placeholder="First Name" onChange={handleChange} />
         <input name="lastName" className="input" placeholder="Last Name" onChange={handleChange} />
         <input name="loginId" className="input" placeholder="Login ID" onChange={handleChange} />
-        <select name="department" className="input" onChange={handleChange}>
+        <select name="department" className="input bg-white dark:bg-gray-700 dark:text-white" onChange={handleChange}>
           <option value="">-- Department --</option>
           <option value="Engineering">Engineering</option>
           <option value="Support">Support</option>
@@ -125,64 +125,66 @@ const SearchEmployeePage = () => {
         <button type="submit" className="btn-blue mt-1">Search</button>
       </form>
 
-      <table className="w-full border border-gray-300 shadow-sm">
-        <thead className="bg-gray-200">
-          <tr>
-            <th className="th">
-              <input
-                type="checkbox"
-                onChange={handleSelectAll}
-                checked={selectedIds.length === employees.length && employees.length > 0}
-              />
-            </th>
-            <th className="th">Emp ID</th>
-            <th className="th">First Name</th>
-            <th className="th">Last Name</th>
-            <th className="th">Login ID</th>
-            <th className="th">DOB</th>
-            <th className="th">Department</th>
-            <th className="th">Salary</th>
-            <th className="th">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.length > 0 ? (
-            employees.map((emp) => (
-              <tr key={emp.id} className="border-t">
-                <td className="td">
-                  <input
-                    type="checkbox"
-                    checked={selectedIds.includes(emp.id)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedIds([...selectedIds, emp.id]);
-                      } else {
-                        setSelectedIds(selectedIds.filter((id) => id !== emp.id));
-                      }
-                    }}
-                  />
-                </td>
-                <td className="td">{emp.employeeId}</td>
-                <td className="td">{emp.firstName}</td>
-                <td className="td">{emp.lastName}</td>
-                <td className="td">{emp.loginId}</td>
-                <td className="td">{emp.dateOfBirth}</td>
-                <td className="td">{emp.department}</td>
-                <td className="td">{emp.salary}</td>
-                <td className="td space-x-2">
-                  <button className="btn-view" onClick={() => handleView(emp)}>View</button>
-                  <button className="btn-edit" onClick={() => handleEdit(emp)}>Edit</button>
-                  <button className="btn-delete" onClick={() => handleDelete(emp.id)}>Delete</button>
-                </td>
-              </tr>
-            ))
-          ) : (
+      <div className="overflow-x-auto">
+        <table className="w-full border border-gray-300 dark:border-gray-700 shadow-sm rounded-md">
+          <thead className="bg-gray-200 dark:bg-gray-700">
             <tr>
-              <td colSpan="9" className="td text-center">No results found</td>
+              <th className="th">
+                <input
+                  type="checkbox"
+                  onChange={handleSelectAll}
+                  checked={selectedIds.length === employees.length && employees.length > 0}
+                />
+              </th>
+              <th className="th">Emp ID</th>
+              <th className="th">First Name</th>
+              <th className="th">Last Name</th>
+              <th className="th">Login ID</th>
+              <th className="th">DOB</th>
+              <th className="th">Department</th>
+              <th className="th">Salary</th>
+              <th className="th">Actions</th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {employees.length > 0 ? (
+              employees.map((emp) => (
+                <tr key={emp.id} className="border-t dark:border-gray-700">
+                  <td className="td">
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.includes(emp.id)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedIds([...selectedIds, emp.id]);
+                        } else {
+                          setSelectedIds(selectedIds.filter((id) => id !== emp.id));
+                        }
+                      }}
+                    />
+                  </td>
+                  <td className="td">{emp.employeeId}</td>
+                  <td className="td">{emp.firstName}</td>
+                  <td className="td">{emp.lastName}</td>
+                  <td className="td">{emp.loginId}</td>
+                  <td className="td">{emp.dateOfBirth}</td>
+                  <td className="td">{emp.department}</td>
+                  <td className="td">{emp.salary}</td>
+                  <td className="td space-x-2">
+                    <button className="btn-view" onClick={() => handleView(emp)}>View</button>
+                    <button className="btn-edit" onClick={() => handleEdit(emp)}>Edit</button>
+                    <button className="btn-delete" onClick={() => handleDelete(emp.id)}>Delete</button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="9" className="td text-center">No results found</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
 
       {selectedIds.length > 0 && (
         <button
@@ -197,7 +199,7 @@ const SearchEmployeePage = () => {
         <button disabled={page === 0} className="btn-blue disabled:opacity-50" onClick={() => handlePageChange('prev')}>
           Previous
         </button>
-        <span className="text-gray-700">
+        <span className="text-gray-700 dark:text-gray-300">
           Page {page + 1} of {totalPages}
         </span>
         <button disabled={page >= totalPages - 1} className="btn-blue disabled:opacity-50" onClick={() => handlePageChange('next')}>
@@ -208,8 +210,6 @@ const SearchEmployeePage = () => {
       {selectedEmployee && (
         <EmployeeModal employee={selectedEmployee} onClose={() => setSelectedEmployee(null)} />
       )}
-
-      {/* Optionally: EmployeeHistoryModal can be used here when needed */}
     </div>
   );
 };

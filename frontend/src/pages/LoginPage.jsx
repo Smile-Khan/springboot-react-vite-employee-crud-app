@@ -28,7 +28,6 @@ function LoginPage() {
       if (token) {
         localStorage.setItem("token", token);
         setMessage("✅ Login successful!");
-
         setTimeout(() => {
           navigate("/");
         }, 1000);
@@ -37,49 +36,56 @@ function LoginPage() {
       }
     } catch (error) {
       console.error("Login error:", error);
-
-      // Optional: Extract backend error message if available
       const errMsg =
         error.response?.data?.message || "❌ Login failed. Check username and password.";
-
       setMessage(errMsg);
     }
   };
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+    <div className="max-w-md mx-auto mt-20 p-6 bg-white dark:bg-darkbg rounded shadow text-gray-900 dark:text-white">
+      <h2 className="text-3xl font-bold mb-6 text-center">🔐 Login</h2>
+
+      <form onSubmit={handleLogin} className="space-y-5">
         <div>
-          <label>Username: </label>
+          <label className="block text-sm font-medium mb-1">Username</label>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
             autoComplete="username"
+            className="input"
+            placeholder="Enter your username"
           />
         </div>
-        <div style={{ marginTop: "1rem" }}>
-          <label>Password: </label>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">Password</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
             autoComplete="current-password"
+            className="input"
+            placeholder="Enter your password"
           />
         </div>
-        <button type="submit" style={{ marginTop: "1rem" }}>
-          Login
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded transition"
+        >
+          🔑 Login
         </button>
       </form>
+
       {message && (
         <p
-          style={{
-            marginTop: "1rem",
-            color: message.includes("✅") ? "green" : "red",
-          }}
+          className={`mt-4 text-center font-medium ${
+            message.includes("✅") ? "text-green-600" : "text-red-500"
+          }`}
         >
           {message}
         </p>

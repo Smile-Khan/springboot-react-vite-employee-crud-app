@@ -1,22 +1,22 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class', // Enable dark mode using a 'dark' class
   content: [
-    "./index.html",           // For Vite root html
-    "./src/**/*.{js,jsx,ts,tsx}" // All JS/TS/JSX/TSX files in src folder
+    "./index.html",           // Vite root HTML
+    "./src/**/*.{js,jsx,ts,tsx}" // All components/pages
   ],
   theme: {
     extend: {
-      // You can extend default theme here if you want
       colors: {
-        // Example of adding custom colors
-        primary: '#1D4ED8', // Tailwind blue-700
-        secondary: '#9333EA', // Tailwind purple-600
+        primary: '#1D4ED8',   // Blue-700
+        secondary: '#9333EA', // Purple-600
+        background: '#F9FAFB',
+        darkbg: '#1e293b',    // Slate-800 for dark mode
       },
       fontFamily: {
-        // Example custom fonts
         sans: ['Inter', 'sans-serif'],
-      }
+      },
     },
   },
   plugins: [],
-}
+};
