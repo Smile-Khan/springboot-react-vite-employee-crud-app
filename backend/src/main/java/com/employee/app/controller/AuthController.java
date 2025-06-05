@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import com.employee.app.model.JwtRequest;
@@ -35,9 +36,13 @@ public class AuthController {
             throw new Exception("Invalid username or password");
         }
 
-        final var userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
-        final String token = jwtUtil.generateToken(userDetails);
+        // Load user details after successful authentication
+        UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
 
+        // Generate token using the user's username
+        String token = jwtUtil.generateToken(userDetails.getUsername());
+
+        // Return token in response
         return new JwtResponse(token);
     }
 

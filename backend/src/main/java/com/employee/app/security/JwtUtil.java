@@ -2,8 +2,10 @@ package com.employee.app.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -13,19 +15,21 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    // Use a sufficiently long secret key (HS512 needs 512 bits = 64 bytes)
-    private final String SECRET = "fCxLSXsnGw1E5tA5y+1s/uVwGb+WlRoXEVSl8Z8BGUQZJDjkN87LpVmhU3ORXk+6R0CNp70GfZYH0QjDTYpI3XQ==";
+    @Value("${app.jwt.secret}")
+    private String SECRET;
 
-    private final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+    private final long EXPIRATION_TIME = 86400000; // 1 day
 
-    private final long EXPIRATION_TIME = 86400000; // 1 day in ms
+    private SecretKey getSigningKey() {
+        return Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+    }
 
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SECRET_KEY, SignatureAlgorithm.HS512)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
 
@@ -53,7 +57,7 @@ public class JwtUtil {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
