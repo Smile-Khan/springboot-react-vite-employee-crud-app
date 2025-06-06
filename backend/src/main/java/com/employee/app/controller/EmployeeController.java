@@ -36,8 +36,7 @@ public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    
-    @Value("${file.upload-dir:/data/uploads/}")
+    @Value("${file.upload-dir}")
     private String uploadsDir;
 
     // Add new employee
